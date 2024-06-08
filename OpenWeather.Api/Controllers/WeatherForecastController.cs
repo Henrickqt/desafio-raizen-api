@@ -34,5 +34,15 @@ namespace OpenWeather.Api.Controllers
             var result = await _weatherForecastService.GetWeatherForecastHistoryAsync();
             return Ok(result);
         }
+
+        [HttpGet("history/{weatherForecastId}")]
+        [ProducesResponseType(typeof(IEnumerable<WeatherForecastResponseDto>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> GetWeatherForecastHistoryById([FromRoute] int weatherForecastId)
+        {
+            var result = await _weatherForecastService.GetWeatherForecastHistoryByIdAsync(weatherForecastId);
+            return Ok(result);
+        }
     }
 }

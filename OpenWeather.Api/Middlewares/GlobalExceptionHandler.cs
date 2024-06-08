@@ -16,6 +16,7 @@ namespace OpenWeather.Api.Middlewares
 
             var (httpStatusCode, message) = exceptionHandlerFeature.Error switch
             {
+                NotFoundException ex => (HttpStatusCode.NotFound, ex.Message),
                 OpenWeatherException ex => (HttpStatusCode.BadRequest, ex.Message),
                 _ => (HttpStatusCode.InternalServerError, "Erro inesperado.")
             };

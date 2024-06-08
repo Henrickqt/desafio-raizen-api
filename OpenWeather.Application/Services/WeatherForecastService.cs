@@ -1,8 +1,10 @@
-﻿using OpenWeather.Application.Interfaces.ExternalServices;
+﻿using OpenWeather.Application.Exceptions;
+using OpenWeather.Application.Interfaces.ExternalServices;
 using OpenWeather.Application.Interfaces.Repositories;
 using OpenWeather.Application.Interfaces.Services;
 using OpenWeather.Application.Models.Request;
 using OpenWeather.Application.Models.Response;
+using OpenWeather.Domain.Entities;
 using OpenWeather.Domain.Extensions;
 using OpenWeather.Domain.Interfaces;
 using System;
@@ -33,6 +35,8 @@ namespace OpenWeather.Application.Services
         {
             var result = await _openWeatherService.GetWeatherForecastAsync(requestDto);
 
+            result.Date = DateTime.Now;
+
             foreach (var item in result.Hourly)
             {
                 item.WindSpeed = item.WindSpeed.ConvertMsToKmh();
@@ -45,12 +49,29 @@ namespace OpenWeather.Application.Services
                 item.Precipitation *= 100;
             }
 
+            var entity = (WeatherForecast)result;
+            await _weatherForecastRepository.AddAsync(entity);
+            await _unitOfWork.CommitAsync();
+
+            result.WeatherForecastId = entity.WeatherForecastId;
+
             return result;
         }
 
         public async Task<IEnumerable<WeatherForecastResponseDto>> GetWeatherForecastHistoryAsync()
         {
-            throw new NotImplementedException();
+            var entities = await _weatherForecastRepository.GetAsync(x => x.WeatherForecastId, false);
+
+            return entities.Select(x => (WeatherForecastResponseDto)x);
+        }
+
+        public async Task<WeatherForecastResponseDto> GetWeatherForecastHistoryByIdAsync(int weatherForecastId)
+        {
+            var entity = await _weatherForecastRepository.GetAsync(weatherForecastId);
+            if (entity == null)
+                throw new NotFoundException("Histórico de previsão do tempo não encontrado.");
+
+            return (WeatherForecastResponseDto)entity;
         }
     }
 }

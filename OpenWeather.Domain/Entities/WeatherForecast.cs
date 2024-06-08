@@ -9,6 +9,7 @@ namespace OpenWeather.Domain.Entities
     public class WeatherForecast
     {
         public int WeatherForecastId { get; set; }
+        public DateTime Date { get; set; }
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
         public string Timezone { get; set; } = null!;

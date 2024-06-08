@@ -65,6 +65,13 @@ namespace OpenWeather.Infra.Data.Repositories.Base
             return await _context.Set<TEntity>().ToListAsync();
         }
 
+        public async Task<IEnumerable<TEntity>> GetAsync<TKey>(Expression<Func<TEntity, TKey>> order, bool ascOrder)
+        {
+            return ascOrder
+                ? await _context.Set<TEntity>().OrderBy(order).ToListAsync()
+                : await _context.Set<TEntity>().OrderByDescending(order).ToListAsync();
+        }
+
         public async Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> where, bool tracking = true)
         {
             return tracking

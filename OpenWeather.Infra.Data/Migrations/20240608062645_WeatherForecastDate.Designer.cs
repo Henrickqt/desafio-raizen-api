@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OpenWeather.Infra.Data;
 
@@ -11,9 +12,10 @@ using OpenWeather.Infra.Data;
 namespace OpenWeather.Infra.Data.Migrations
 {
     [DbContext(typeof(OpenWeatherContext))]
-    partial class OpenWeatherContextModelSnapshot : ModelSnapshot
+    [Migration("20240608062645_WeatherForecastDate")]
+    partial class WeatherForecastDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

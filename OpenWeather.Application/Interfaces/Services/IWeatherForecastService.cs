@@ -12,5 +12,6 @@ namespace OpenWeather.Application.Interfaces.Services
     {
         Task<WeatherForecastResponseDto> GetWeatherForecastAsync(WeatherForecastRequestDto requestDto);
         Task<IEnumerable<WeatherForecastResponseDto>> GetWeatherForecastHistoryAsync();
+        Task<WeatherForecastResponseDto> GetWeatherForecastHistoryByIdAsync(int weatherForecastId);
     }
 }

@@ -18,6 +18,7 @@ namespace OpenWeather.Domain.Interfaces
         Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> where);
         Task<TEntity?> GetAsync(int id);
         Task<IEnumerable<TEntity>> GetAsync();
+        Task<IEnumerable<TEntity>> GetAsync<TKey>(Expression<Func<TEntity, TKey>> order, bool ascOrder);
         Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> where, bool tracking = true);
         Task<TEntity?> GetOneAsync(Expression<Func<TEntity, bool>> where, bool tracking = true);
     }

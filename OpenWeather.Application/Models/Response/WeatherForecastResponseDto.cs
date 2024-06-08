@@ -10,6 +10,10 @@ namespace OpenWeather.Application.Models.Response
 {
     public class WeatherForecastResponseDto
     {
+        public int WeatherForecastId { get; set; }
+
+        public DateTime Date { get; set; }
+
         [JsonProperty("lat")]
         public decimal Latitude { get; set; }
 
@@ -27,6 +31,8 @@ namespace OpenWeather.Application.Models.Response
 
         public static implicit operator WeatherForecastResponseDto(WeatherForecast entity) => new()
         {
+            WeatherForecastId = entity.WeatherForecastId,
+            Date = entity.Date,
             Latitude = entity.Latitude,
             Longitude = entity.Longitude,
             Timezone = entity.Timezone,
@@ -37,6 +43,8 @@ namespace OpenWeather.Application.Models.Response
 
         public static implicit operator WeatherForecast(WeatherForecastResponseDto dto) => new()
         {
+            WeatherForecastId = dto.WeatherForecastId,
+            Date = dto.Date,
             Latitude = dto.Latitude,
             Longitude = dto.Longitude,
             Timezone = dto.Timezone,
